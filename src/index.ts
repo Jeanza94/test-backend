@@ -1,8 +1,10 @@
+import express from 'express';
 import { AppService } from "./domain/services/appService";
 import { AppExpress } from "./infraestructure/app-express/app";
-import express from 'express';
+import { ProductRouter } from "./infraestructure/app-express/routes/productRouter";
 
 const expressApp = express()
-const app: AppService = new AppExpress(expressApp)
+const productRouter = ProductRouter.getIntance()
+const app: AppService = new AppExpress(expressApp, productRouter)
 
 app.listen()
