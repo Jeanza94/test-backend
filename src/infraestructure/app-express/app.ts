@@ -1,8 +1,9 @@
 
 import express, { Express } from 'express'
 import cors from 'cors'
+import { AppService } from '../../domain/services/appService'
 
-export class AppExpress {
+export class AppExpress implements AppService {
 
   private readonly port = 8000
 
