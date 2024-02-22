@@ -1,5 +1,11 @@
+
 export interface Product {
-  categories: string[],
+  items: Item[],
+  categories: string[]
+}
+
+export interface Item {
+  author: Author,
   condition: string,
   free_shipping: boolean,
   id: string,
@@ -8,13 +14,20 @@ export interface Product {
   title: string,
 }
 
+
 interface Price {
-  amount: string,
+  amount: number,
   currency: string,
   decimals: number
 }
 
-export interface ProductDescription extends Omit<Product, 'categories'> {
+interface Author {
+  name: string,
+  lastname: string,
+}
+export interface ItemDescription extends Item {
   sold_quantity: number,
   description: string
 }
+
+export interface CommonAttributes extends Omit<Item, 'author'| 'picture'| 'sold_quantity'> {}
