@@ -2,10 +2,12 @@
 import express, { Express } from 'express'
 import cors from 'cors'
 import { AppService } from '../../domain/services/appService'
+import productRoutes from './routes/productRoutes'
 
 export class AppExpress implements AppService {
 
   private readonly port = 8000
+  private readonly pathBase = '/api'
 
   constructor(private readonly app: Express) {
     this.middlewares()
@@ -18,11 +20,7 @@ export class AppExpress implements AppService {
   }
 
   private routes() {
-    this.app.get('/', (req, res) => {
-      const headers = req.headers
-      console.log(headers)
-      return res.status(200).json({message: 'todo salio bien'})
-    })
+    this.app.use(this.pathBase, productRoutes)
   }
 
   listen() {
