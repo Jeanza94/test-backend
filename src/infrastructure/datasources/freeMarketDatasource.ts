@@ -16,7 +16,7 @@ export class FreeMarketDatasource implements ProductDatasource {
 
   async getProducts(options: OptionsGetProduct): Promise<Product> {
     const {limit=4, query='relevantes'} = options
-    const url = `${this.baseUrl}/MLA/search?q=${query}&limit=${limit}`
+    const url = `${this.baseUrl}/sites/MLA/search?q=${query}&limit=${limit}`
 
     try {
       const response = await this.http.get<FreeMarketQueryResponse>(url)

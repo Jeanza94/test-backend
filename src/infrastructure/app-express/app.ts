@@ -20,11 +20,9 @@ export class AppExpress implements AppService {
   private middlewares() {
     this.app.use(cors())
     this.app.use(express.json())
-    console.log('middlewares')
   }
 
   private routes() {
-    console.log('routes')
     this.app.use(this.pathBase, this.productRouter.getRouter())
   }
 
