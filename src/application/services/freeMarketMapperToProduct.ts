@@ -11,7 +11,7 @@ export class FreeMarketMapperToProduct {
         name: arrFullName[0],
         lastname: arrFullName[1]
       },
-      picture: json.thumbnail[0],
+      picture: json.thumbnail,
       ...commonAttributes
     }
   }
@@ -47,7 +47,12 @@ export class FreeMarketMapperToProduct {
   }
 
   private static getCommonAttributes(json: ItemResult | FreeMarketItemResponse): CommonAttributes {
-    const decimals = json.price.toString().split(".").splice(0,1).length
+    let decimals = 0
+    const arrPrice = json.price.toString().split(".")
+    if (arrPrice.length > 1) {
+      decimals = [...arrPrice[1]].length
+    }
+     
     return {
       title: json.title,
       condition: json.condition,

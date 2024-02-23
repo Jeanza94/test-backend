@@ -8,15 +8,19 @@ export class ProductController {
     private readonly repository: ProductRepository,
   ) {}
 
-  getItems = (req: Request, res: Response) => {
-    const { q } = req.query as {q: string}
+  getItems = async(req: Request, res: Response) => {
+    const { q, limit } = req.query as {q: string, limit: string}
     const options = {} as OptionsGetProduct
     if(q !== undefined) {
       options.query = q
     }
 
+    if(limit && !isNaN(Number(limit))) {
+      options.limit = Number(limit)
+    }
+
     try {
-      const products = this.repository.getProducts(options)
+      const products = await this.repository.getProducts(options)
       res.status(200).json(products)
     } catch (error) {
       console.log(error)
@@ -24,8 +28,14 @@ export class ProductController {
     }
   }
 
-  getItemById = (req: Request, res: Response) => {
+  getItemById = async(req: Request, res: Response) => {
     const id = req.params.id
-    res.status(200).json({message: id})
+    try {
+      const product = await this.repository.getProductById(id)
+      res.status(200).json(product)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({message: 'algo salio mal en el servidor'})
+    }
   }
 }
