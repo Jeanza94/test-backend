@@ -6,6 +6,8 @@ import { ProductController } from './infrastructure/app-express/controllers/prod
 import { ProductRepositoryImpl } from './infrastructure/repositories/productRepositoryImpl';
 import { FreeMarketDatasource } from './infrastructure/datasources/freeMarketDatasource';
 import { AxiosApiAdapter } from './infrastructure/adapters/axiosApiAdapter';
+import { AppMiddlewares } from './infrastructure/app-express/middlewares/appMiddleware';
+import { AppRouter } from './infrastructure/app-express/routes/appRouter';
 
 const boostrap = () => {
   const expressApp = express()
@@ -15,7 +17,9 @@ const boostrap = () => {
   const productController = new ProductController(productRepository)
   const router = Router()
   const productRouter = new ProductRouter(router, productController)
-  const app: AppService = new AppExpress(expressApp, productRouter)
+  const appRouter = new AppRouter(productRouter)
+  const appMiddlewares = new AppMiddlewares()
+  const app: AppService = new AppExpress(expressApp, appMiddlewares,appRouter)
 
   app.listen()
 }

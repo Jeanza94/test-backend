@@ -1,29 +1,28 @@
 
-import express, { Express } from 'express'
-import cors from 'cors'
+import { Express } from 'express'
 import { AppService } from '../../domain/services/appService'
-import { ProductRouter } from './routes/productRouter'
+import { AppMiddlewares } from './middlewares/appMiddleware';
+import { AppRouter } from './routes/appRouter';
 
 export class AppExpress implements AppService {
 
-  private readonly port = 8000
-  private readonly pathBase = '/api'
+  private readonly port = process.env.PORT || 8000
 
   constructor(
     private readonly app: Express,
-    private readonly productRouter: ProductRouter
+    private readonly appMiddlewares: AppMiddlewares,
+    private readonly appRouter: AppRouter
   ) {
     this.middlewares()
     this.routes()
   }
 
   private middlewares() {
-    this.app.use(cors())
-    this.app.use(express.json())
+    this.appMiddlewares.generalMiddlewares(this.app)
   }
 
   private routes() {
-    this.app.use(this.pathBase, this.productRouter.getRouter())
+    this.appRouter.routes(this.app)
   }
 
   listen() {
