@@ -11,7 +11,7 @@ export class AppExpress implements AppService {
 
   constructor(
     private readonly app: Express,
-    private readonly productRoutes: ProductRouter
+    private readonly productRouter: ProductRouter
   ) {
     this.middlewares()
     this.routes()
@@ -20,10 +20,12 @@ export class AppExpress implements AppService {
   private middlewares() {
     this.app.use(cors())
     this.app.use(express.json())
+    console.log('middlewares')
   }
 
   private routes() {
-    this.app.use(this.pathBase, this.productRoutes.getRouter())
+    console.log('routes')
+    this.app.use(this.pathBase, this.productRouter.getRouter())
   }
 
   listen() {

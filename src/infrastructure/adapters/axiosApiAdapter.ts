@@ -7,8 +7,8 @@ export class AxiosApiAdapter implements HttpAdapter {
   constructor(){}
 
   async get<T>(url: string): Promise<T> {
-      const {data} = await this.axios.get<T>(url)
-      return data
+    const {data} = await this.axios.get<T>(url)
+    return data
   }
 
 }
