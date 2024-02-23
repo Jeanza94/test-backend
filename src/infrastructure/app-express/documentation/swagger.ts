@@ -1,3 +1,4 @@
+import path from 'path'
 import swaggerJSDoc, {
   OAS3Definition,
   OAS3Options
@@ -20,8 +21,15 @@ const swaggerDefinition: OAS3Definition = {
         type: 'object',
         properties: {
           author: {
-            name: 'string',
-            lastname: 'string',
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string'
+              },
+              lastname: {
+                type: 'string'
+              }
+            }
           },  
           condition: {
             type: 'string'
@@ -36,15 +44,65 @@ const swaggerDefinition: OAS3Definition = {
             type: 'string'
           },
           price: {
-            amount: 'number',
-            currency: 'string',
-            decimals: 'number'
+            type: 'object',
+            properties: {
+              amount: {
+                type: 'number'
+              },
+              currency: {
+                type: 'string'
+              },
+              decimals: {
+                type: 'number'
+              }
+            }
           },
           title: {
             type: 'string'
-          },
+          }
         }
-      }
+      },
+      item_description: {
+        allOf: [
+          { $ref: '#/components/schemas/item' },
+          {
+            type: 'object',
+            properties: {
+              sold_quantity: {
+                type: 'number'
+              },
+              description: {
+                type: 'string'
+              }
+            }
+          }
+        ]
+      },
+      product: {
+        type: 'object',
+        properties: {
+          categories: {
+            type: 'array',
+            items: {
+              type: 'string'
+            }
+          },
+          items: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/item'
+            }
+          }
+        }
+      },
+      server_error_response: {
+        type: 'object',
+        properties: {
+          message: {
+            type: 'string'
+          }
+        }
+      } 
     }
   }
 }
@@ -52,7 +110,7 @@ const swaggerDefinition: OAS3Definition = {
 const swaggerOptions: OAS3Options = {
   swaggerDefinition,
   apis:[
-    '../../routes.ts'
+    path.resolve(__dirname, '../routes/*.ts')
   ]
 }
 
