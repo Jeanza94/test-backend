@@ -44,7 +44,7 @@ export interface Filter {
   id:     string;
   name:   string;
   type:   Type;
-  values: FilterValue[];
+  values?: FilterValue[];
 }
 
 export interface FilterValue {

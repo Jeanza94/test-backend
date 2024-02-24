@@ -18,7 +18,7 @@ export class FreeMarketMapperToProduct {
 
   static convertJsonToProduct(json: FreeMarketQueryResponse): Product {
     const categories: string[] = []
-    if(json.filters.length > 0) {
+    if(json.filters.length > 0 && json.filters[0].values) {
       json.filters[0].values[0].path_from_root.forEach(path_root => {
         categories.push(path_root.name)
       })
