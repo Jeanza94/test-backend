@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'
 import { ProductRepository } from '../../../application/repositories/productRepository'
 import { OptionsGetProduct } from '../../../application/interfaces'
+import { HttpResult } from '../../../application/interfaces/http'
 
 export class ProductController {
 
@@ -19,23 +20,23 @@ export class ProductController {
       options.limit = Number(limit)
     }
 
-    try {
-      const products = await this.repository.getProducts(options)
-      res.status(200).json(products)
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({message: 'algo salio mal en el servidor'})
-    }
+    const products = await this.repository.getProducts(options)
+    
+    this.handleResponse(products, res)
+    
   }
 
   getItemById = async(req: Request, res: Response) => {
     const id = req.params.id
-    try {
-      const product = await this.repository.getProductById(id)
-      res.status(200).json(product)
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({message: 'algo salio mal en el servidor'})
+    const product = await this.repository.getProductById(id)
+    this.handleResponse(product, res)    
+  
+  }
+
+  private handleResponse = <T>(response:HttpResult<T>, res:Response) => {
+    if('data' in response) {
+      return res.status(200).json(response.data)
     }
+    return res.status(response.error.status).json({message: response.error.message})
   }
 }
