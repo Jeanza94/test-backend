@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import { ProductRepository } from '../../../application/repositories/productRepository'
+import { ProductRepository } from '../../../domain/repositories/productRepository'
 import { OptionsGetProduct } from '../../../application/interfaces'
 import { HttpResult } from '../../../application/interfaces/http'
 

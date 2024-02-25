@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { AxiosApiAdapter } from '../src/infrastructure/adapters/axiosApiAdapter';
-import { FreeMarketDatasource } from '../src/infrastructure/datasources/freeMarketDatasource';
-import { ProductRepositoryImpl } from '../src/infrastructure/repositories/productRepositoryImpl';
+import { FreeMarketDatasource } from '../src/application/datasources/freeMarketDatasource';
+import { ProductRepositoryImpl } from '../src/application/repositories/productRepositoryImpl';
 import { ProductController } from '../src/infrastructure/app-express/controllers/productControllers';
 import { ProductRouter } from '../src/infrastructure/app-express/routes/productRouter';
 import { AppRouter } from '../src/infrastructure/app-express/routes/appRouter';

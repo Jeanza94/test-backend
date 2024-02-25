@@ -1,12 +1,12 @@
-import { HttpAdapter } from "../../application/adapters/httpAdapter";
-import { ProductDatasource } from "../../application/datasources/productDatasource";
-import { OptionsGetProduct } from "../../application/interfaces";
+import { HttpAdapter } from "../adapters/httpAdapter";
+import { ProductDatasource } from "../../domain/datasources/productDatasource";
+import { OptionsGetProduct } from "../interfaces";
 import { ItemDescription, Product } from "../../domain/entities/product";
-import { FreeMarketQueryResponse } from '../../application/interfaces/freeMarketQueryResponse';
-import { FreeMarketMapperToProduct } from "../../application/services/freeMarketMapperToProduct";
-import { FreeMarketItemResponse } from "../../application/interfaces/freeMarketItemResponse";
-import { FreeMarketItemDescriptionResponse } from "../../application/interfaces/freeMarketItemDescriptionResponse";
-import { HttpResult } from '../../application/interfaces/http';
+import { FreeMarketQueryResponse } from '../interfaces/freeMarketQueryResponse';
+import { FreeMarketMapperToProduct } from "../services/freeMarketMapperToProduct";
+import { FreeMarketItemResponse } from "../interfaces/freeMarketItemResponse";
+import { FreeMarketItemDescriptionResponse } from "../interfaces/freeMarketItemDescriptionResponse";
+import { HttpResult } from '../interfaces/http';
 
 export class FreeMarketDatasource implements ProductDatasource {
   private readonly baseUrl = 'https://api.mercadolibre.com'
