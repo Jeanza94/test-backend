@@ -28,4 +28,8 @@ export class AppExpress implements AppService {
       console.log(`Serving the app on port ${port}`)
     })
   }
+
+  getAppInstance() {
+    return this.app
+  }
 }

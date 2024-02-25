@@ -34,16 +34,20 @@ export class FreeMarketDatasource implements ProductDatasource {
       this.http.get<FreeMarketItemResponse>(urlItem),
       this.http.get<FreeMarketItemDescriptionResponse>(urlItemDescription),
     ])
+  
     if(responseItem && 'data' in responseItem) {
       const urlQuery = `${this.baseUrlQuery}?q=${responseItem.data.title}`
       const responseQueryItems = await this.http.get<FreeMarketQueryResponse>(urlQuery)
       return this.handlerErrorGetProductById(responseItem,responseItemDescription, responseQueryItems)
     }
-    return this.errorServer()
+    return this.handlerErrorGetProductById(responseItem,responseItemDescription)
   }
 
   private handlerErrorGetProducts(httpResult: HttpResult<FreeMarketQueryResponse>) {
     if('data' in httpResult) {
+      if(httpResult.data.results.length === 0) return {
+        error: {status:404, message: 'There are not results for the query introduced'}
+      }
       return {
         data: FreeMarketMapperToProduct.convertJsonToProduct(httpResult.data)
       }
@@ -54,8 +58,8 @@ export class FreeMarketDatasource implements ProductDatasource {
     }
   }
 
-  private handlerErrorGetProductById(httpResult1: HttpResult<FreeMarketItemResponse>, httpResult2:HttpResult<FreeMarketItemDescriptionResponse>, httpResult3:HttpResult<FreeMarketQueryResponse>) {
-    if('data' in httpResult1 && 'data' in httpResult2 && 'data' in httpResult3) {
+  private handlerErrorGetProductById(httpResult1: HttpResult<FreeMarketItemResponse>, httpResult2:HttpResult<FreeMarketItemDescriptionResponse>, httpResult3?:HttpResult<FreeMarketQueryResponse>) {
+    if('data' in httpResult1 && 'data' in httpResult2 && (httpResult3 && 'data' in httpResult3)) {
       const product = httpResult3.data.results.find(result => result.id === httpResult1.data.id)
       if(!product) return this.errorServer()
       return {
@@ -72,12 +76,6 @@ export class FreeMarketDatasource implements ProductDatasource {
     if('error' in httpResult2) {
       return {
         error: httpResult2.error
-      }
-    }
-
-    if('error' in httpResult3) {
-      return {
-        error: httpResult3.error
       }
     }
 
