@@ -6,8 +6,6 @@ import { AppRouter } from './routes/appRouter';
 
 export class AppExpress implements AppService {
 
-  private readonly port = process.env.PORT || 8000
-
   constructor(
     private readonly app: Express,
     private readonly appMiddlewares: AppMiddlewares,
@@ -25,9 +23,9 @@ export class AppExpress implements AppService {
     this.appRouter.routes(this.app)
   }
 
-  listen() {
-    this.app.listen(this.port, () => {
-      console.log(`Serving the app on port ${this.port}`)
+  listen(port: number) {
+    this.app.listen(port, () => {
+      console.log(`Serving the app on port ${port}`)
     })
   }
 }
