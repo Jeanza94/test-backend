@@ -1,4 +1,4 @@
-import { HttpAdapter } from "../adapters/httpAdapter";
+import { HttpAdapter } from "../../domain/adapters/httpAdapter";
 import { ProductDatasource } from "../../domain/datasources/productDatasource";
 import { OptionsGetProduct } from "../interfaces";
 import { ItemDescription, Product } from "../../domain/entities/product";

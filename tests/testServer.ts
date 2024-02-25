@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { AxiosApiAdapter } from '../src/infrastructure/adapters/axiosApiAdapter';
+import { AxiosApiAdapter } from '../src/application/adapters/axiosApiAdapter';
 import { FreeMarketDatasource } from '../src/application/datasources/freeMarketDatasource';
 import { ProductRepositoryImpl } from '../src/application/repositories/productRepositoryImpl';
 import { ProductController } from '../src/infrastructure/app-express/controllers/productControllers';

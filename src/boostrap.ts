@@ -5,7 +5,7 @@ import { ProductRouter } from "./infrastructure/app-express/routes/productRouter
 import { ProductController } from './infrastructure/app-express/controllers/productControllers';
 import { ProductRepositoryImpl } from './application/repositories/productRepositoryImpl';
 import { FreeMarketDatasource } from './application/datasources/freeMarketDatasource';
-import { AxiosApiAdapter } from './infrastructure/adapters/axiosApiAdapter';
+import { AxiosApiAdapter } from './application/adapters/axiosApiAdapter';
 import { AppMiddlewares } from './infrastructure/app-express/middlewares/appMiddleware';
 import { AppRouter } from './infrastructure/app-express/routes/appRouter';
 import { envs } from '../config/envs';

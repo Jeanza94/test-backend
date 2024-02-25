@@ -1,6 +1,6 @@
 import axios from "axios";
-import { HttpAdapter } from "../../application/adapters/httpAdapter";
-import { HttpError, HttpResult } from "../../application/interfaces/http";
+import { HttpAdapter } from "../../domain/adapters/httpAdapter";
+import { HttpError, HttpResult } from "../interfaces/http";
 
 
 export class AxiosApiAdapter implements HttpAdapter {
