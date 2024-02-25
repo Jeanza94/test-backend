@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { appTestServer } from '../../../testServer'
 import {Product} from '../../../../src/domain/entities/product'
-import { HttpError } from '../../../../src/application/interfaces/http';
+import { HttpError } from '../../../../src/domain/interfaces/http';
 import { ItemDescription } from '../../../../../test-practico/src/app/items/interfaces/freeMarket';
 
 describe('Test product routes', () => { 

@@ -1,6 +1,6 @@
 import { Product, ItemDescription } from "../entities/product";
-import { OptionsGetProduct } from "../../application/interfaces";
-import { HttpResult } from "../../application/interfaces/http";
+import { OptionsGetProduct } from "../interfaces";
+import { HttpResult } from "../interfaces/http";
 
 export interface ProductRepository {
   getProducts(options: OptionsGetProduct): Promise<HttpResult<Product>>

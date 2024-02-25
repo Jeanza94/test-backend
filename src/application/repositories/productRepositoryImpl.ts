@@ -1,8 +1,8 @@
 import { ProductDatasource } from "../../domain/datasources/productDatasource";
-import { OptionsGetProduct } from "../interfaces";
+import { OptionsGetProduct } from "../../domain/interfaces";
 import { ProductRepository } from '../../domain/repositories/productRepository';
 import { Product, ItemDescription } from "../../domain/entities/product";
-import { HttpResult } from '../interfaces/http';
+import { HttpResult } from '../../domain/interfaces/http';
 
 export class ProductRepositoryImpl implements ProductRepository {
   constructor(

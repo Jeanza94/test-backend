@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
 import { ProductRepository } from '../../../domain/repositories/productRepository'
-import { OptionsGetProduct } from '../../../application/interfaces'
-import { HttpResult } from '../../../application/interfaces/http'
+import { OptionsGetProduct } from '../../../domain/interfaces'
+import { HttpResult } from '../../../domain/interfaces/http'
 
 export class ProductController {
 
