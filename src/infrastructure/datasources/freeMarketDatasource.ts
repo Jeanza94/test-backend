@@ -10,6 +10,7 @@ import { HttpResult } from '../../application/interfaces/http';
 
 export class FreeMarketDatasource implements ProductDatasource {
   private readonly baseUrl = 'https://api.mercadolibre.com'
+  private readonly baseUrlQuery = `${this.baseUrl}/sites/MLA/search`
 
   constructor(
     private readonly http: HttpAdapter
@@ -17,7 +18,7 @@ export class FreeMarketDatasource implements ProductDatasource {
 
   async getProducts(options: OptionsGetProduct): Promise<HttpResult<Product>> {
     const {limit=4, query='tennis'} = options
-    const url = `${this.baseUrl}/sites/MLA/search?q=${query}&limit=${limit}`
+    const url = `${this.baseUrlQuery}?q=${query}&limit=${limit}`
     const response = await this.http.get<FreeMarketQueryResponse>(url)
     return this.handlerErrorGetProducts(response)
       
@@ -26,7 +27,6 @@ export class FreeMarketDatasource implements ProductDatasource {
   async getProductById(id:string): Promise<HttpResult<ItemDescription>> {
     const urlItem = `${this.baseUrl}/items/${id}`
     const urlItemDescription = `${urlItem}/description`
-    
     const [
       responseItem,
       responseItemDescription,
@@ -34,8 +34,12 @@ export class FreeMarketDatasource implements ProductDatasource {
       this.http.get<FreeMarketItemResponse>(urlItem),
       this.http.get<FreeMarketItemDescriptionResponse>(urlItemDescription),
     ])
-    
-    return this.handlerErrorGetProductById(responseItem,responseItemDescription)
+    if(responseItem && 'data' in responseItem) {
+      const urlQuery = `${this.baseUrlQuery}?q=${responseItem.data.title}`
+      const responseQueryItems = await this.http.get<FreeMarketQueryResponse>(urlQuery)
+      return this.handlerErrorGetProductById(responseItem,responseItemDescription, responseQueryItems)
+    }
+    return this.errorServer()
   }
 
   private handlerErrorGetProducts(httpResult: HttpResult<FreeMarketQueryResponse>) {
@@ -50,10 +54,12 @@ export class FreeMarketDatasource implements ProductDatasource {
     }
   }
 
-  private handlerErrorGetProductById(httpResult1: HttpResult<FreeMarketItemResponse>, httpResult2:HttpResult<FreeMarketItemDescriptionResponse>) {
-    if('data' in httpResult1 && 'data' in httpResult2) {
+  private handlerErrorGetProductById(httpResult1: HttpResult<FreeMarketItemResponse>, httpResult2:HttpResult<FreeMarketItemDescriptionResponse>, httpResult3:HttpResult<FreeMarketQueryResponse>) {
+    if('data' in httpResult1 && 'data' in httpResult2 && 'data' in httpResult3) {
+      const product = httpResult3.data.results.find(result => result.id === httpResult1.data.id)
+      if(!product) return this.errorServer()
       return {
-        data: FreeMarketMapperToProduct.converJsonToItemDescription(httpResult1.data,httpResult2.data.plain_text)
+        data: FreeMarketMapperToProduct.converJsonToItemDescription(httpResult1.data,httpResult2.data.plain_text, product.available_quantity)
       }
     }
 
@@ -69,13 +75,23 @@ export class FreeMarketDatasource implements ProductDatasource {
       }
     }
 
+    if('error' in httpResult3) {
+      return {
+        error: httpResult3.error
+      }
+    }
+
+    return this.errorServer()
+    
+
+  }
+  private errorServer() {
     return {
       error: {
         message: 'Something was wrong in the server',
         status: 500
       }
-    } 
+    }
   }
-
 
 }

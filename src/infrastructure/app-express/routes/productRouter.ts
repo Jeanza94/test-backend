@@ -70,6 +70,12 @@ export class ProductRouter {
      *           application/json:
      *              schema:
      *                $ref: "#/components/schemas/item_description"
+     *       404:
+     *         description: Product not found
+     *         content:
+     *           application/json:
+     *              schema:
+     *                $ref: "#/components/schemas/server_error_response"
      *       500:
      *         description: Error in server
      *         content:

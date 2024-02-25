@@ -32,7 +32,7 @@ export class FreeMarketMapperToProduct {
     }
   }
 
-  static converJsonToItemDescription(json: FreeMarketItemResponse, description: string): ItemDescription {
+  static converJsonToItemDescription(json: FreeMarketItemResponse, description: string, avalaibleQuantity: number): ItemDescription {
     const arrFullName = json.seller_address.city.name.split(' ')
     const commonAttributes = FreeMarketMapperToProduct.getCommonAttributes(json)
     return {
@@ -42,7 +42,7 @@ export class FreeMarketMapperToProduct {
       },
       description,
       picture: json.pictures[0].url,
-      sold_quantity: json.initial_quantity,
+      sold_quantity: json.initial_quantity - avalaibleQuantity,
       ...commonAttributes
     }
   }
@@ -53,10 +53,14 @@ export class FreeMarketMapperToProduct {
     if (arrPrice.length > 1) {
       decimals = [...arrPrice[1]].length
     }
-     
+    const itemCondition = json.attributes.find(obj => obj.id === 'ITEM_CONDITION')
+    let condition = ''
+    if(itemCondition) {
+      condition = itemCondition.value_name || ''
+    }
     return {
       title: json.title,
-      condition: json.condition,
+      condition,
       free_shipping: json.shipping.free_shipping,
       id: json.id,
       price: {
