@@ -1,7 +1,9 @@
 
 export interface Product {
   items: Item[],
-  categories: string[]
+  categories: string[],
+  hasNextPage: boolean,
+  totalPages: number,
 }
 
 export interface Item {
