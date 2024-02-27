@@ -51,6 +51,8 @@ describe('Test in the freeMarketMapperToProduct', () => {
           title: 'Pelota Penalty Campo Bravo Xxiii Fluo Azul Color Fluo/azul',
         },
       ],
+      totalPages: 9,
+      hasNextPage: true
     })
   })
 

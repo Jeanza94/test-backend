@@ -25,10 +25,17 @@ export class FreeMarketMapperToProduct {
     }
 
     const items = json.results.map(item => FreeMarketMapperToProduct.convertJsonToItem(item))
+    const total = json.paging.total
+    const limit = json.paging.limit
+    const offset = json.paging.offset
+    const totalPages = Math.ceil(total / limit)
+    const hasNextPage = limit + offset <= 1000
 
     return {
       categories,
-      items
+      items,
+      totalPages,
+      hasNextPage,
     }
   }
 

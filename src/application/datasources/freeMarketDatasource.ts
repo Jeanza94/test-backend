@@ -17,8 +17,8 @@ export class FreeMarketDatasource implements ProductDatasource {
   ){}
 
   async getProducts(options: OptionsGetProduct): Promise<HttpResult<Product>> {
-    const {limit=4, query='tennis'} = options
-    const url = `${this.baseUrlQuery}?q=${query}&limit=${limit}`
+    const {limit=4, query='tennis', offset=0} = options
+    const url = `${this.baseUrlQuery}?q=${query}&limit=${limit}&offset=${offset}`
     const response = await this.http.get<FreeMarketQueryResponse>(url)
     return this.handlerErrorGetProducts(response)
       
