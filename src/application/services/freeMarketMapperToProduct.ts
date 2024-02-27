@@ -29,7 +29,7 @@ export class FreeMarketMapperToProduct {
     const limit = json.paging.limit
     const offset = json.paging.offset
     const totalPages = Math.ceil(total / limit)
-    const hasNextPage = limit * offset <= 1000
+    const hasNextPage = limit + offset <= 1000
 
     return {
       categories,
